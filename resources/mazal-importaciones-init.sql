@@ -1,15 +1,13 @@
 create table category 
 (
 	category_id SERIAL primary key,
-	category_name text not null unique,
-    category_description text
+	category_name text not null unique
 );
 
 create table subcategory 
 (
 	subcategory_id SERIAL primary key,
-	subcategory_name text not null unique,
-    subcategory_description text
+	subcategory_name text not null unique
 );
 
 create table product
@@ -17,8 +15,10 @@ create table product
 	product_id SERIAL primary key,
     product_code int not null unique,
 	product_name text not null unique,
-    product_description text,
-    product_image bytea
+    product_unit text,
+    product_measures text,
+    product_image bytea,
+    product_observations text
 );
 
 create table category_subcategory
