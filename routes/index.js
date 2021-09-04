@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/test', async function(req,res,next){
-  const result = await db.execute('SELECT * FROM products');
+  const result = await db.execute('SELECT * FROM category');
   res.send(result[0])
 })
 
