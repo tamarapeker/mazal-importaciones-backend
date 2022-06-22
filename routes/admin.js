@@ -11,14 +11,21 @@ const fs = require('fs')
 //     }catch(err){
 //         console.log("No image sent")
 //     }
-//     fs.readFile(path,'hex',async(err, fileData)=>{
-//         if(!err) {
-//             fileData = `\\x${fileData}`;
-//         }
-//         const queryText = 'INSERT INTO product (product_code, product_name, product_unit, product_measures, product_image, product_observations) VALUES (?,?,?,?,?,?)'
-//         const result = await db.execute(queryText, [req.fields.code,req.fields.name,req.fields.unit,req.fields.measures,fileData,req.fields.observations])
-//         res.send(result)
-//     })
+//     try{
+//         fs.readFile(path,'hex',async(err, fileData)=>{
+//             if(!err) {
+//                 fileData = `\\x${fileData}`;
+//             }
+//             const queryText = 'INSERT INTO product (product_code, product_name, product_unit, product_measures, product_image, product_observations) VALUES (?,?,?,?,?,?)'
+//             const result = await db.execute(queryText, [req.fields.code,req.fields.name,req.fields.unit,req.fields.measures,fileData,req.fields.observations])
+//             res.status(200).send(result)
+//         })
+//     }
+//     catch(error){
+//         console.log(error)
+//         res.status(500).send(error)
+//     }
+  
 // })
 
 //Create new product

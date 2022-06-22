@@ -7,10 +7,10 @@ console.log("CONFIGG",env)
 
 const config = {
     prod: {
-        port: process.env.NODE_PORT || '80',
+        port: process.env.NODE_PORT || '8080',
     },
     dev: {
-        port: process.env.NODE_PORT || '80',
+        port: process.env.NODE_PORT || '8080',
     }
 };
 
