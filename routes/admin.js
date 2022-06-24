@@ -1,46 +1,43 @@
 var express = require('express');
 var router = express.Router();
-const db = require('../utils/database')
 const formidable = require('express-formidable')
-const fs = require('fs')
-
-// router.post('/',formidable() ,async function(req,res,next){
-//     let path = ""
-//     try{
-//         path = req.files.image.path
-//     }catch(err){
-//         console.log("No image sent")
-//     }
-//     try{
-//         fs.readFile(path,'hex',async(err, fileData)=>{
-//             if(!err) {
-//                 fileData = `\\x${fileData}`;
-//             }
-//             const queryText = 'INSERT INTO product (product_code, product_name, product_unit, product_measures, product_image, product_observations) VALUES (?,?,?,?,?,?)'
-//             const result = await db.execute(queryText, [req.fields.code,req.fields.name,req.fields.unit,req.fields.measures,fileData,req.fields.observations])
-//             res.status(200).send(result)
-//         })
-//     }
-//     catch(error){
-//         console.log(error)
-//         res.status(500).send(error)
-//     }
-  
-// })
+const adminControllers = require('../controllers/adminControllers')
 
 //Create new product
 router.post('/product', formidable(),async function (req,res,next){
-
+    try {
+        const result = await adminControllers.addProduct(req)
+        res.status(201).send({message: "Se ha creado el producto con éxito"})
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).send(error)
+    }
 })
 
 //Update product
-router.put('/product/:id',formidable(), async function(req,res,next){
-
+router.put('/product',formidable(), async function(req,res,next){
+    try {
+        const result = await adminControllers.updateProduct(req)
+        res.status(201).send({message: "Se ha modificado el producto con éxito"})
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).send(error)
+    }
 })
 
 //Inactive product
 router.delete('/product/:id', async function(req,res,next){
-
+    try {
+        const id = req.params.id
+        const result = await adminControllers.inactiveProduct(id)
+        res.status(201).send({message: "Se ha eliminado el producto con éxito"})
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).send(error)
+    }
 })
 
 //Create category

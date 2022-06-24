@@ -1,15 +1,12 @@
 var express = require('express');
 var router = express.Router();
-const db = require('../utils/database')
-const formidable = require('express-formidable')
-const fs = require('fs')
+const categoryControllers = require('../controllers/categoryControllers')
 
 //get all categories
 router.get('/', async function(req, res, next) {
     try{
-        const query = 'SELECT category_id, category_name FROM category'
-        const result = await db.execute(query);
-        res.status(201).send(result[0])
+        const result = await categoryControllers.getCategories()
+        res.status(201).send(result)
     }
     catch(error){
         console.log(error)
@@ -20,11 +17,11 @@ router.get('/', async function(req, res, next) {
 //get all subcategories with all categories
 router.get('/subcategory', async function(req, res, next) {
     try{
-        const query = 'SELECT a.subcategory_id, a.subcategory_name, b.category_name FROM subcategory as a JOIN category as b ON a.category_id = b.category_id'
-        const result = await db.execute(query)
-        res.status(201).send(result[0])
+        const result = await categoryControllers.getSubcategories()
+        res.status(201).send(result)
     }
     catch(error){
+        console.log(error)
         res.status(500).send(error)
     }
 });
@@ -33,23 +30,20 @@ router.get('/subcategory', async function(req, res, next) {
 router.get('/:id', async function (req,res,next){
     try{
         const id = req.params.id
-        const query = 'SELECT category_id, category_name FROM category WHERE category_id = ?'
-        const result = await db.execute(query, [id]);
-        res.status(201).send(result[0])
+        const result = await categoryControllers.getCategoryById(id)
+        res.status(201).send(result)
     }
     catch(error){
         res.status(500).send(error)
     }
 })
 
-
-
 //get subcategories for each category
-router.get('/subcategory/:category_id', async function(req, res, next) {
+router.get('/:category_id/subcategory', async function(req, res, next) {
     try{
-        const query = 'SELECT a.subcategory_id, a.subcategory_name, b.category_name FROM subcategory as a JOIN category as b ON a.category_id = b.category_id WHERE a.category_id = ?'
-        const result = await db.execute(query, [req.params.category_id])
-        res.status(201).send(result[0])
+        const id = req.params.category_id
+        const result = await categoryControllers.getSubcategoriesForCategory(id)
+        res.status(201).send(result)
     }
     catch(error){
         res.status(500).send(error)
@@ -57,7 +51,15 @@ router.get('/subcategory/:category_id', async function(req, res, next) {
 });
 
 //get subcategory by id
-router.get('/subcategory/:id', async function (req,res,next){
+router.get('/subcategory/:subcategory_id', async function (req,res,next){
+    try{
+        const id = req.params.subcategory_id
+        const result = await categoryControllers.getSubcategoryById(id)
+        res.status(201).send(result)
+    }
+    catch(error){
+        res.status(500).send(error)
+    }
     
 })
 
