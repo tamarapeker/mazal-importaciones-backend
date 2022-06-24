@@ -59,8 +59,86 @@ async function inactiveProduct (id) {
     }
 }
 
+async function addCategory (req) {
+    try {
+        const queryText = 'INSERT INTO category (category_name) VALUES (?)'
+        const result = await db.execute(queryText,[req.body.name]);
+        return result
+    }
+    catch(error){
+        console.log(error)
+        return error
+    }
+}
+
+async function updateCategory (req) {
+    try {
+        const queryText = 'UPDATE category SET category_name = ? WHERE category_id = ?'
+        const result = await db.execute(queryText,[req.body.name, req.body.id]);
+        return result
+    }
+    catch(error){
+        console.log(error)
+        return error
+    }
+}
+
+async function inactiveCategory (id) {
+    try {
+        const queryText = 'UPDATE category SET category_state = "inactive" WHERE category_id = ?'
+        const result = await db.execute(queryText,[id]);
+        return result
+    }
+    catch(error){
+        console.log(error)
+        return error
+    }
+}
+
+async function addSubcategory (req) {
+    try {
+        const queryText = 'INSERT INTO subcategory (subcategory_name,category_id) VALUES (?,?)'
+        const result = await db.execute(queryText,[req.body.name,req.body.category_id]);
+        return result
+    }
+    catch(error){
+        console.log(error)
+        return error
+    }
+}
+
+async function updateSubcategory (req) {
+    try {
+        const queryText = 'UPDATE subcategory SET subcategory_name = ?, category_id = ? WHERE subcategory_id = ?'
+        const result = await db.execute(queryText,[req.body.name,req.body.category_id ,req.body.id]);
+        return result
+    }
+    catch(error){
+        console.log(error)
+        return error
+    }
+}
+
+async function inactiveSubcategory (id) {
+    try {
+        const queryText = 'UPDATE subcategory SET subcategory_state = "inactive" WHERE subcategory_id = ?'
+        const result = await db.execute(queryText,[id]);
+        return result
+    }
+    catch(error){
+        console.log(error)
+        return error
+    }
+}
+
 module.exports = {
     addProduct: addProduct,
     updateProduct: updateProduct,
     inactiveProduct: inactiveProduct,
+    addCategory: addCategory,
+    updateCategory: updateCategory,
+    inactiveCategory: inactiveCategory,
+    addSubcategory: addSubcategory,
+    updateSubcategory: updateSubcategory,
+    inactiveSubcategory: inactiveSubcategory,
 }
