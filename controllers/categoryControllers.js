@@ -1,10 +1,12 @@
-const db = require('../utils/database')
+//const db = require('../utils/database')
+const { Pool } = require('pg');
+const pool = new Pool()
 
 async function getCategories () {
     try{
-        const query = 'SELECT category_id, category_name FROM category WHERE category_state = "active"'
-        const result = await db.execute(query);
-        return result[0]
+        const text = "SELECT category_id, category_name FROM category WHERE category_state = 'active'"
+        const result = await pool.query(text)
+        return result.rows
     }
     catch(error){
         console.log(error)
@@ -14,9 +16,9 @@ async function getCategories () {
 
 async function getSubcategories () {
     try{
-        const query = 'SELECT  a.subcategory_id, a.subcategory_name,b.category_id ,b.category_name FROM subcategory as a JOIN category as b ON a.category_id = b.category_id WHERE subcategory_state="active"'
-        const result = await db.execute(query);
-        return result[0]
+        const text = "SELECT  a.subcategory_id, a.subcategory_name,b.category_id ,b.category_name FROM subcategory as a JOIN category as b ON a.category_id = b.category_id WHERE subcategory_state='active'"
+        const result = await pool.query(text)
+        return result.rows
     }
     catch(error){
         console.log(error)
@@ -26,9 +28,9 @@ async function getSubcategories () {
 
 async function getCategoryById (id) {
     try{
-        const query = 'SELECT category_id, category_name FROM category WHERE category_id = ? AND category_state = "active"'
-        const result = await db.execute(query,[id]);
-        return result[0]
+        const text = "SELECT category_id, category_name FROM category WHERE category_id = $1 AND category_state = 'active'"
+        const result = await pool.query(text,[id])
+        return result.rows
     }
     catch(error){
         console.log(error)
@@ -38,9 +40,9 @@ async function getCategoryById (id) {
 
 async function getSubcategoriesForCategory (idCateogry) {
     try{
-        const query = 'SELECT a.subcategory_id, a.subcategory_name,b.category_id ,b.category_name FROM subcategory as a JOIN category as b ON a.category_id = b.category_id WHERE b.category_id = ? AND a.subcategory_state = "active"'
-        const result = await db.execute(query, [idCateogry]);
-        return result[0]
+        const text = "SELECT a.subcategory_id, a.subcategory_name,b.category_id ,b.category_name FROM subcategory as a JOIN category as b ON a.category_id = b.category_id WHERE b.category_id = $1 AND a.subcategory_state = 'active'"
+        const result = await pool.query(text,[idCateogry])
+        return result.rows
     }
     catch(error){
         console.log(error)
@@ -50,9 +52,9 @@ async function getSubcategoriesForCategory (idCateogry) {
 
 async function getSubcategoryById (idSubcat) {
     try{
-        const query = 'SELECT  subcategory_id, subcategory_name FROM subcategory WHERE subcategory_id = ? AND subcategory_state = "active"'
-        const result = await db.execute(query, [idSubcat]);
-        return result[0]
+        const text = "SELECT  a.subcategory_id, a.subcategory_name, b.category_id, b.category_name FROM subcategory as a JOIN category as b ON a.category_id = b.category_id WHERE a.subcategory_id = $1 AND subcategory_state = 'active'"
+        const result = await pool.query(text,[idSubcat])
+        return result.rows
     }
     catch(error){
         console.log(error)
