@@ -1,7 +1,6 @@
 //const db = require('../utils/database')
 const fs = require('fs')
-const { Pool } = require('pg');
-const pool = new Pool()
+const pool = require('../utils/database')
 
 async function addProduct(req) {
     let path = ""

@@ -1,6 +1,5 @@
 //const db = require('../utils/database')
-const { Pool } = require('pg');
-const pool = new Pool()
+const pool = require('../utils/database')
 
 async function getProducts () {
     try{

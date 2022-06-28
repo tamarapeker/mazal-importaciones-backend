@@ -1,14 +1,16 @@
 create table category
 (
     category_id SERIAL primary key,
-	category_name text not null unique
+	category_name text not null unique,
+    category_state text default 'active' not null
 );
 
 create table subcategory 
 (
 	subcategory_id SERIAL primary key,
 	subcategory_name text not null unique,
-    category_id int references category(category_id)
+    category_id int references category(category_id),
+    subcategory_state text default 'active' not null
 );
 
 create table product
@@ -22,8 +24,8 @@ create table product
     product_min_cant text,
     product_cant_bulto text,
     product_image bytea,
-    product_observations text,
-    product_timestamp date default current_date not null
+    product_timestamp date default current_date not null,
+    product_state text default 'active' not null
 );
 
 create table product_category_subcategory
