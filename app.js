@@ -3,6 +3,7 @@ let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
+const compression = require('compression');
 
 const cors = require('cors');
 
@@ -25,6 +26,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors())
+
+// Comprimir todas las respuestas HTTP
+app.use(compression());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
